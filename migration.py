@@ -5,20 +5,26 @@ import time
 
 from datetime import datetime
 from configparser import ConfigParser
-
-# Get program execution time to use in logger file
-exec_ts = int(time.time())
-exec_td = datetime.fromtimestamp(exec_ts).strftime('%Y-%m-%d %H:%M:%S')
+from calc import calcLifespan
 
 # Get working directory and create logger
 cur_dir = os.getcwd()
 logger = logging.getLogger()
+
+# Get program execution time to use in logger file
+exec_ts = int(time.time())
+exec_td = datetime.fromtimestamp(exec_ts).strftime('%Y-%m-%d %H:%M:%S')
 
 # Make log folder if it does not exist already
 if not os.path.exists(cur_dir + '/logs'): 
     os.makedirs('logs')
 logging.basicConfig(filename='logs/migration.log', level=logging.INFO)
 logger.info("Started at " + exec_td)
+
+# Check if calc.py file returns expected values, if not, abort migration
+if calcLifespan() == 1:
+    logger.info("ERROR! calc.py function not returning expected values. Aborting migration.")
+    quit()
 
 # Get config values
 logger.info("Reading config.ini file...")
