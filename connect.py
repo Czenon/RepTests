@@ -6,7 +6,7 @@ import os
 from datetime import datetime
 from configparser import ConfigParser
 
-# Get program execution time to use in logger file
+# Get program execution time to use in logger file, format is year-month-day hour:minute:second
 exec_ts = int(time.time())
 exec_td = datetime.fromtimestamp(exec_ts).strftime('%Y-%m-%d %H:%M:%S')
 
